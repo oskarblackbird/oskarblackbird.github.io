@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const img = new Image();
     img.crossOrigin = "Anonymous";
-    img.src = 'home1.jpg';
+    img.src = 'map outline.png';
     img.onload = function() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     };
