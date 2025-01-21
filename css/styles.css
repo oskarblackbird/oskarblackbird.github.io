@@ -1,0 +1,150 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f0f0;
+    overflow-x: hidden;
+}
+
+header {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    text-align: left;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header .address {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+.property {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.images {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.property-image, .layout-image {
+    width: 48%;
+    height: 48%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.property-image:hover, .layout-image:hover {
+    transform: scale(1.05);
+}
+
+.details {
+    padding: 20px;
+}
+
+.price {
+    font-size: 28px;
+    color: #e74c3c;
+    margin: 10px 0;
+}
+
+.info {
+    font-size: 18px;
+    color: #34495e;
+    margin: 10px 0;
+}
+
+.description {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin: 10px 0;
+}
+
+.contact-form {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.contact-form h2 {
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.contact-form button {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.contact-form button:hover {
+    background: #34495e;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #2c3e50;
+    color: #ecf0f1;
+}
+
+.world-map {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.world-map img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1.0;
+}
+
+.info-box {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+}
