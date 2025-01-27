@@ -17,13 +17,36 @@
             display: block; /* Remove any default inline spacing */
             
         }
+        #overlayImage {
+            position: absolute; /* Position the image absolutely */
+            top: 0;
+            left: 0;
+            width: 95%; /* Make the image take the full width */
+            height: 95%; /* Make the image take the full height */
+           /* object-fit: cover; */
+           /* pointer-events: none; /* Allow mouse events to pass through */
+        }
+        #infoBox {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #000;
+            padding: 5px;
+            display: none; /* Initially hidden */
+            pointer-events: none; /* Prevent mouse events on the info box */
+        }
     </style>
     
 
 </head>
 <body>
     <canvas id="glCanvas"></canvas>
-    
+
+    <img id="overlayImage" src="map outline.png" alt="Overlay Image" />
+    <!-- <img id="overlayImage" src="https://i.ibb.co/n3dJh7r/map-outline.png" alt="Overlay Image" /> -->
+    <div id="infoBox"></div>
+
+
+
     <!-- Vertex Shader -->
     <script id="vertexShader" type="x-shader/x-vertex">
         attribute vec4 a_position;
@@ -162,7 +185,7 @@
         const mouseLocation = gl.getUniformLocation(program, "iMouse");
 
         function render(time) {
-            time *= 0.0001; // Convert time to seconds
+            time *= 0.0005; // Convert time to seconds
             gl.clearColor(0, 0, 0, 1);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -175,6 +198,57 @@
         }
 
         requestAnimationFrame(render);
+
+        // Mouse color detection
+        const overlayImage = document.getElementById('overlayImage');
+        const colorCanvas = document.createElement('canvas');
+        const colorContext = colorCanvas.getContext('2d');
+
+        //overlayImage.crossOrigin = "anonymous";
+
+        function getColorAtMouse(event) {
+            const rect = overlayImage.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            colorCanvas.width = overlayImage.width;
+            colorCanvas.height = overlayImage.height;
+            colorContext.drawImage(overlayImage, 0, 0);
+            const pixel = colorContext.getImageData(x, y, 1, 1).data;
+
+            const color = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${pixel[3]})`;
+            return color;
+        }
+
+        const infoBox = document.getElementById('infoBox');
+
+        overlayImage.addEventListener('mousemove', (event) => {
+            const color = getColorAtMouse(event);
+            infoBox.style.display = 'block';
+            infoBox.style.left = `${event.clientX + 10}px`;
+            infoBox.style.top = `${event.clientY + 10}px`;
+            infoBox.textContent = `Color: ${color}`;
+        });
+
+        overlayImage.addEventListener('mouseleave', () => {
+            infoBox.style.display = 'none';
+        });
+
+        // Example messages based on color
+        const colorMessages = {
+            'rgba(255, 0, 0, 255)': 'You are hovering over red!',
+            'rgba(0, 255, 0, 255)': 'You are hovering over green!',
+            'rgba(0, 0, 255, 255)': 'You are hovering over blue!',
+            // Add more colors and messages as needed
+        };
+
+        overlayImage.addEventListener('mousemove', (event) => {
+            const color = getColorAtMouse(event);
+            infoBox.style.display = 'block';
+            infoBox.style.left = `${event.clientX + 10}px`;
+            infoBox.style.top = `${event.clientY + 10}px`;
+            infoBox.textContent = colorMessages[color] || `Color: ${color}`;
+        });
     </script>
     <div id="info-box" class="info-box"></div>
      <!---- <script src="js/scripts.js"></script> --->
