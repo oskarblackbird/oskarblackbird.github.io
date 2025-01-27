@@ -13,9 +13,21 @@
             width: 100%; /* Ensure the body takes up the full height */
             overflow: hidden; /* Prevent scrolling */
         }
+        .canvas-container {
+            position: relative; /* Position relative for absolute children */
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+        }
         canvas {
-            display: block; /* Remove any default inline spacing */
-            
+            position: absolute; /* Position absolute to overlap */
+            top: 0;
+            left: 0;
+        }
+        #webglCanvas {
+            z-index: 1; /* Lower z-index */
+        }
+        #overlayCanvas {
+            z-index: 2; /* Higher z-index to be on top */
         }
         #overlayImage {
             position: absolute; /* Position the image absolutely */
@@ -33,6 +45,7 @@
             padding: 5px;
             display: none; /* Initially hidden */
             pointer-events: none; /* Prevent mouse events on the info box */
+            z-index: 3;
         }
     </style>
     
@@ -41,8 +54,9 @@
 <body>
     <canvas id="glCanvas"></canvas>
 
-    <img id="overlayImage" src="map outline.png" alt="Overlay Image" />
-    <!-- <img id="overlayImage" src="https://i.ibb.co/n3dJh7r/map-outline.png" alt="Overlay Image" /> -->
+    <!-- <img id="overlayImage" src="map outline.png" alt="Overlay Image" /> -->
+   <!-- <img id="overlayImage" src="https://i.ibb.co/n3dJh7r/map-outline.png" alt="Overlay Image" /> -->
+    <canvas id="overlayCanvas" width="800" height="600"></canvas>
     <div id="infoBox"></div>
 
 
@@ -200,39 +214,83 @@
         requestAnimationFrame(render);
 
         // Mouse color detection
+
+        const img = new Image();
+        /*
+        img.src = 'https://i.ibb.co/n3dJh7r/map-outline.png';
+        img.crossOrigin = "anonymous";
+        */
+        img.src = 'map outline.png';
+
         const overlayImage = document.getElementById('overlayImage');
-        const colorCanvas = document.createElement('canvas');
+        const colorCanvas = document.getElementById('overlayCanvas');
         const colorContext = colorCanvas.getContext('2d');
 
-        //overlayImage.crossOrigin = "anonymous";
+        img.onload = function() {
+            drawImage();
+            resizeTheOtherCanvas();
+        };
 
-        function getColorAtMouse(event) {
-            const rect = overlayImage.getBoundingClientRect();
+        window.addEventListener('resize', function() {
+            resizeTheOtherCanvas();
+            drawImage();
+        });
+
+        function drawImage() {
+            const aspectRatio = img.width / img.height;
+            let drawWidth = colorCanvas.width * .9; // Scale down to 50% of canvas width
+            let drawHeight = colorCanvas.height * .9; // Scale down to 50% of canvas height
+
+            if (colorCanvas.width / colorCanvas.height > aspectRatio) {
+                drawWidth = drawHeight * aspectRatio;
+            } else {
+                drawHeight = drawWidth / aspectRatio;
+            }
+
+            const offsetX = (colorCanvas.width - drawWidth) / 2;
+            const offsetY = (colorCanvas.height - drawHeight) / 2;
+
+            console.log(`Drawing image at: ${offsetX}, ${offsetY}, ${drawWidth}x${drawHeight}`); // Debugging line
+
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+            colorContext.imageSmoothingEnabled = true;
+            colorContext.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        }
+
+        function resizeTheOtherCanvas() {
+            colorCanvas.width = window.innerWidth;
+            colorCanvas.height = window.innerHeight;
+            console.log(`Canvas resized to: ${canvas.width}x${canvas.height}`); // Debugging line
+        }  
+
+        function getColorAtMouse(canvas) {
+                const rect = colorCanvas.getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
-
-            colorCanvas.width = overlayImage.width;
-            colorCanvas.height = overlayImage.height;
-            colorContext.drawImage(overlayImage, 0, 0);
             const pixel = colorContext.getImageData(x, y, 1, 1).data;
+            const color = `#${pixel[0].toString(16).padStart(2, '0')}${pixel[1].toString(16).padStart(2, '0')}${pixel[2].toString(16).padStart(2, '0')}`;
 
-            const color = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${pixel[3]})`;
+            infoBox.style.left = `${event.clientX + 10}px`; // Offset to avoid cursor overlap
+            infoBox.style.top = `${event.clientY + 10}px`; // Offset to avoid cursor overlap
+            
+            infoBox.style.display = 'block';
+            infoBox.textContent = color;
+
+            console.log(`Color: ${color}`);
             return color;
         }
 
         const infoBox = document.getElementById('infoBox');
 
-        overlayImage.addEventListener('mousemove', (event) => {
+        
+        colorCanvas.addEventListener('mousemove', (event) => {
             const color = getColorAtMouse(event);
             infoBox.style.display = 'block';
             infoBox.style.left = `${event.clientX + 10}px`;
             infoBox.style.top = `${event.clientY + 10}px`;
             infoBox.textContent = `Color: ${color}`;
         });
-
-        overlayImage.addEventListener('mouseleave', () => {
-            infoBox.style.display = 'none';
-        });
+        
 
         // Example messages based on color
         const colorMessages = {
