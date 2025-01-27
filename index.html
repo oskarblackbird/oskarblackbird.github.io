@@ -46,6 +46,7 @@
             display: none; /* Initially hidden */
             pointer-events: none; /* Prevent mouse events on the info box */
             z-index: 3;
+            max-width: 500px;
         }
     </style>
     
@@ -216,10 +217,12 @@
         // Mouse color detection
 
         const img = new Image();
+        
         /*
         img.src = 'https://i.ibb.co/n3dJh7r/map-outline.png';
         img.crossOrigin = "anonymous";
         */
+        
         img.src = 'map outline.png';
 
         const overlayImage = document.getElementById('overlayImage');
@@ -268,45 +271,43 @@
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
             const pixel = colorContext.getImageData(x, y, 1, 1).data;
-            const color = `#${pixel[0].toString(16).padStart(2, '0')}${pixel[1].toString(16).padStart(2, '0')}${pixel[2].toString(16).padStart(2, '0')}`;
+            const color = `${pixel[0].toString(16).padStart(2, '0')}${pixel[1].toString(16).padStart(2, '0')}${pixel[2].toString(16).padStart(2, '0')}`;
 
-            infoBox.style.left = `${event.clientX + 10}px`; // Offset to avoid cursor overlap
-            infoBox.style.top = `${event.clientY + 10}px`; // Offset to avoid cursor overlap
-            
-            infoBox.style.display = 'block';
-            infoBox.textContent = color;
 
             console.log(`Color: ${color}`);
             return color;
         }
 
         const infoBox = document.getElementById('infoBox');
-
         
         colorCanvas.addEventListener('mousemove', (event) => {
             const color = getColorAtMouse(event);
-            infoBox.style.display = 'block';
             infoBox.style.left = `${event.clientX + 10}px`;
             infoBox.style.top = `${event.clientY + 10}px`;
-            infoBox.textContent = `Color: ${color}`;
+
+            if (colorMessages[color]) {
+                infoBox.textContent = colorMessages[color];
+                infoBox.style.display = 'block';
+            } else {
+                infoBox.style.display = 'none';
+            }
         });
         
 
         // Example messages based on color
         const colorMessages = {
-            'rgba(255, 0, 0, 255)': 'You are hovering over red!',
-            'rgba(0, 255, 0, 255)': 'You are hovering over green!',
-            'rgba(0, 0, 255, 255)': 'You are hovering over blue!',
+            '42d84b': 'This is the state of Washington!',
+            '89872f': 'This is the state of Oregon!',
+            '9e6e26': 'This is the state of California!',
+            'c24418': 'This is the state of Idaho!',
+            'a96222': 'This is the state of Montana!',
+            'ce3713': 'This is the state of Texas!',
+            '977629': 'This is the province of British Columbia!',
+            '799835': 'This is the province of Alberta!',
+            'b8511c': 'This is the province of Manitoba!',
             // Add more colors and messages as needed
         };
 
-        overlayImage.addEventListener('mousemove', (event) => {
-            const color = getColorAtMouse(event);
-            infoBox.style.display = 'block';
-            infoBox.style.left = `${event.clientX + 10}px`;
-            infoBox.style.top = `${event.clientY + 10}px`;
-            infoBox.textContent = colorMessages[color] || `Color: ${color}`;
-        });
     </script>
     <div id="info-box" class="info-box"></div>
      <!---- <script src="js/scripts.js"></script> --->
