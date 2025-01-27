@@ -227,8 +227,8 @@
         const colorContext = colorCanvas.getContext('2d');
 
         img.onload = function() {
-            drawImage();
             resizeTheOtherCanvas();
+            drawImage();
         };
 
         window.addEventListener('resize', function() {
