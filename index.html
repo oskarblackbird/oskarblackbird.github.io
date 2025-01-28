@@ -294,7 +294,7 @@
             infoBox.style.top = `${event.clientY + 10}px`;
 
             if (colorMessages[color]) {
-                infoBox.textContent = colorMessages[color];
+                infoBox.textContent = getColorTextContent(color);
                 infoBox.style.visibility = 'visible';
                 infoBox.style.opacity = 1;
             } else {
@@ -306,7 +306,7 @@
 
         // Example messages based on color
         const colorMessages = {
-            '42d84b': 'This is the state of Washington!',
+            '42d84b': 'washington.txt',
             '89872f': 'This is the state of Oregon!',
             '9e6e26': 'This is the state of California!',
             'c24418': 'This is the state of Idaho!',
@@ -319,6 +319,31 @@
             // Add more colors and messages as needed
         };
 
+        async function getColorTextContent(color) {
+            if (colorMessages[color]) {
+                try {
+                // Fetch the local text file
+                const response = await fetch(colorMessages[color]);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Read the text file content
+                const fileContent = await response.text();
+                
+                console.log(fileContent);
+                
+
+                return await response.text();
+                } catch (error) {
+                    console.error('Error fetching the text file:', error);
+                }
+            }
+            else {
+                return 'This area has not been explored... yet.';
+            }
+            
+        }
     </script>
     <div id="info-box" class="info-box"></div>
      <!---- <script src="js/scripts.js"></script> --->
