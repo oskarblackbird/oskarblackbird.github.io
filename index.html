@@ -54,6 +54,28 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
+        #label1 {
+            position: absolute; /* Position absolute to keep them fixed */
+            color: black;
+            font-size: 10px;
+            font-family: 'DejaVu Sans Mono', monospace;
+            background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+            padding: 2px;
+            border-radius: 5px; /* Rounded corners */
+            top: 33%;
+            right: 16%;
+        }
+        #label2 {
+            position: absolute; /* Position absolute to keep them fixed */
+            color: black;
+            font-size: 10px;
+            font-family: 'DejaVu Sans Mono', monospace;
+            background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+            padding: 2px;
+            border-radius: 5px; /* Rounded corners */
+            top: 72%;
+            right: 16%;
+        }
     </style>
     
 
@@ -66,7 +88,10 @@
     <canvas id="overlayCanvas" width="800" height="600"></canvas>
     <div id="infoBox"></div>
 
-
+    <div class="canvas-container">
+        <div id="label1">Most time spent here</div>
+        <div id="label2">Least time spent here</div>
+    </div>
 
     <!-- Vertex Shader -->
     <script id="vertexShader" type="x-shader/x-vertex">
@@ -219,27 +244,31 @@
         }
 
         requestAnimationFrame(render);
-
         // Mouse color detection
 
         const img = new Image();
         
-        /*
-        img.src = 'https://i.ibb.co/D5sSMyQ/map-outline.png';
+        
+        img.src = 'https://i.ibb.co/B5hrYbhf/map-outline.png';
 
         img.crossOrigin = "anonymous";
-        */
         
         
-        img.src = 'map outline.png';
+        
+        //img.src = 'map outline.png';
 
         const overlayImage = document.getElementById('overlayImage');
         const colorCanvas = document.getElementById('overlayCanvas');
         const colorContext = colorCanvas.getContext('2d');
 
+        const label1 = document.getElementById('label1');
+        const label2 = document.getElementById('label2');
+
         img.onload = function() {
             resizeTheOtherCanvas();
             drawImage();
+            
+
         };
 
         window.addEventListener('resize', function() {
@@ -294,7 +323,7 @@
             infoBox.style.top = `${event.clientY + 10}px`;
 
             if (colorMessages[color]) {
-                infoBox.textContent = getColorTextContent(color);
+                infoBox.textContent = colorMessages[color];
                 infoBox.style.visibility = 'visible';
                 infoBox.style.opacity = 1;
             } else {
@@ -306,7 +335,7 @@
 
         // Example messages based on color
         const colorMessages = {
-            '42d84b': 'washington.txt',
+            '42d84b': "Washington is where I have spent most of my life. Mostly confined to Seattle with the exception of a few years in Bellevue. Calling this place home feels like a privilege; the beautiful mountains and green forestry are quite amazing to wake up to every morning. ",
             '89872f': 'This is the state of Oregon!',
             '9e6e26': 'This is the state of California!',
             'c24418': 'This is the state of Idaho!',
@@ -316,34 +345,11 @@
             '799835': 'This is the province of Alberta!',
             'b8511c': 'This is the province of Manitoba!',
             '010101': 'This area has not been explored... yet.',
+            '3B3B3B': 'Each area is assigned a very specific color code in which there are over 16 million possible colors. The areas have such a specific identifier because of how specifically meaningful my time in each of these places have been.'
             // Add more colors and messages as needed
         };
 
-        async function getColorTextContent(color) {
-            if (colorMessages[color]) {
-                try {
-                // Fetch the local text file
-                const response = await fetch(colorMessages[color]);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                // Read the text file content
-                const fileContent = await response.text();
-                
-                console.log(fileContent);
-                
-
-                return await response.text();
-                } catch (error) {
-                    console.error('Error fetching the text file:', error);
-                }
-            }
-            else {
-                return 'This area has not been explored... yet.';
-            }
-            
-        }
+        
     </script>
     <div id="info-box" class="info-box"></div>
      <!---- <script src="js/scripts.js"></script> --->
