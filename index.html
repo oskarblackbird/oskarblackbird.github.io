@@ -76,6 +76,17 @@
             top: 72%;
             right: 16%;
         }
+        #label3 {
+            position: absolute; /* Position absolute to keep them fixed */
+            color: black;
+            font-size: 18px;
+            font-family: 'DejaVu Sans Mono', monospace;
+            background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+            padding: 2px;
+            border-radius: 5px; /* Rounded corners */
+            top: 1%;
+            left: 1%;
+        }
     </style>
     
 
@@ -91,6 +102,8 @@
     <div class="canvas-container">
         <div id="label1">Most time spent here</div>
         <div id="label2">Least time spent here</div>
+        <div id="label3">"Enjoy your stay" (Hover over states)</div>
+
     </div>
 
     <!-- Vertex Shader -->
@@ -249,13 +262,13 @@
         const img = new Image();
         
         
-         //img.src = 'https://i.ibb.co/B5hrYbhf/map-outline.png';
+         img.src = 'https://i.ibb.co/B5hrYbhf/map-outline.png';
 
-         //img.crossOrigin = "anonymous";
+         img.crossOrigin = "anonymous";
         
         
         
-        img.src = 'map outline.png';
+        //img.src = 'map outline.png';
 
         const overlayImage = document.getElementById('overlayImage');
         const colorCanvas = document.getElementById('overlayCanvas');
@@ -293,6 +306,12 @@
             console.log(`Drawing image at: ${offsetX}, ${offsetY}, ${drawWidth}x${drawHeight}`); // Debugging line
 
         // ctx.clearRect(0, 0, canvas.width, canvas.height);
+            label1.style.right = `${offsetX + drawWidth * 0.08}px`;
+            label1.style.top = `${offsetY + drawHeight * 0.31}px`;
+
+            label2.style.right = `${offsetX + drawWidth * 0.08}px`;
+            label2.style.top = `${offsetY + drawHeight * 0.76}px`;
+
             colorContext.imageSmoothingEnabled = true;
             colorContext.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
         }
@@ -341,9 +360,9 @@
             'c24418': 'For the most part, Idaho has been more of a passing through point en route to places like Alberta and Montana. That being said, I can recall the fun memories of playing in hotel waterparks with my sister when I was little.',
             'a96222': 'Montana is where the now sold house that hosted my family reunions was located. Visiting here every year when I was younger were amazing times to connect with family members I do not see as often, and the memories still live with me to this day.',
             'ce3713': 'There really is not a whole lot to say about this one. Flying in for a brief one night layover to Dallas allowed me to see the flat, dry landscape, reminding me of my birthplace in Alberta. Cool city though!',
-            '977629': 'This is the province of British Columbia!',
-            '799835': 'This is the province of Alberta!',
-            'b8511c': 'This is the province of Manitoba!',
+            '977629': 'The cultural range of British Columbia has always fascinated me. From the quaint, small town of Victoria to the bustling city of Vancouver, I have always enjoyed my time spent in this province. The rides on the clipper are always a fun time, and every time I take a weekend retreat up here with my family, I leave feeling grateful for the experience.',
+            '799835': 'Alberta. Being born here in what they call the Texas of Canada, I feel an inherent connection despite only living here for four years. With my entire extended family living in Calgary, visiting during the holidays feels like going in a time machine back to before we moved. The cold and snowy yet sunny winter days always have a trademark feeling of Alberta.',
+            'b8511c': 'A brief trip up to Winnipeg in my childhood to visit family friends gave me a broader perspective of Canada. ',
             '010101': 'This area has not been explored... yet.',
             '3b3b3b': 'Each area is assigned a very specific color code in which there are over 16 million possible colors. The areas have such a specific identifier because of how specifically meaningful my time in each of these places have been.',
             '020202': 'Each area is assigned a very specific color code in which there are over 16 million possible colors. The areas have such a specific identifier because of how specifically meaningful my time in each of these places have been.',
