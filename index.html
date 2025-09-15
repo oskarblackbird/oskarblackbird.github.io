@@ -1,12 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome</title>
-  <link rel="stylesheet" href="landing.css"> <!-- optional -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oskar Blackbird — Dev Portfolio</title>
+
+  <!-- Fonts & CSS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" 
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Oskar Blackbird</h1>
-  <p>Software Engineering '30 @ University of Waterloo</p>
+  <div class="top-bar"></div>
+  <header class="header">
+    <nav class="nav" aria-label="Primary">
+      <button 
+        id="nav-toggle" 
+        aria-expanded="false" 
+        aria-controls="site-nav" 
+        class="btn btn-ghost small"
+      >
+        ☰ Menu
+      </button>
+
+      <div id="site-nav" class="nav-links" hidden>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="spacer"></div>
+
+      <button 
+        id="theme-toggle" 
+        class="btn btn-ghost small" 
+        aria-label="Toggle theme"
+      >
+        🌓
+      </button>
+    </nav>
+
+    <div class="hero reveal" role="banner">
+      <h1>Oskar Blackbird — Software Engineering 👾 @ University of Waterloo</h1>
+      <p id="typewriter" aria-live="polite" class="muted"></p>
+
+      <div class="actions">
+        <a class="btn" href="#projects">View Projects</a>
+        <a 
+          class="btn btn-ghost" 
+          href="/resume.pdf" 
+          target="_blank" 
+          rel="noopener"
+        >
+          Download Résumé
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="projects" class="section">
+      <div class="section-head">
+        <h2>// projects</h2>
+
+        <div class="filters" role="tablist" aria-label="Project filters">
+          <button role="tab" data-filter="all" class="active">All</button>
+          <button role="tab" data-filter="python">Python</button>
+          <button role="tab" data-filter="react">React</button>
+          <button role="tab" data-filter="cpp">C++</button>
+        </div>
+
+        <div class="sort">
+          <label>
+            Sort by
+            <select id="sort">
+              <option value="default">Default</option>
+              <option value="stars">Stars</option>
+              <option value="newest">Newest</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div id="gh-projects" class="grid"></div>
+
+      <!-- Sample static cards (keep as examples or delete once GitHub pins load) -->
+      <div class="grid">
+        <article 
+          class="card reveal" 
+          data-tags="python cli pandas" 
+          data-stars="42" 
+          data-date="2025-05-01"
+        >
+          <h3><a href="#">Pathly — Monte Carlo Simulator</a></h3>
+          <p>CLI + Python library for retirement sims and risk metrics.</p>
+          <div class="tags">
+            <span class="tag py">python</span>
+            <span class="tag">pandas</span>
+            <span class="tag">cli</span>
+          </div>
+          <img 
+            class="zoomable" 
+            src="thumb1.jpg" 
+            data-full="full1.jpg" 
+            alt="Pathly screenshot" 
+          />
+        </article>
+
+        <article 
+          class="card reveal" 
+          data-tags="react nextjs supabase" 
+          data-stars="21" 
+          data-date="2025-04-10"
+        >
+          <h3><a href="#">GoOutside — Planner</a></h3>
+          <p>Full-stack app with email capture (Supabase + Resend).</p>
+          <div class="tags">
+            <span class="tag">react</span>
+            <span class="tag">nextjs</span>
+            <span class="tag">supabase</span>
+          </div>
+          <img 
+            class="zoomable" 
+            src="thumb2.jpg" 
+            data-full="full2.jpg" 
+            alt="GoOutside screenshot" 
+          />
+        </article>
+
+        <article 
+          class="card reveal" 
+          data-tags="cpp algorithms" 
+          data-stars="18" 
+          data-date="2025-03-01"
+        >
+          <h3><a href="#">Sudoku Validator</a></h3>
+          <p>Bitmasking + box math; O(1) checks per cell.</p>
+          <div class="tags">
+            <span class="tag cpp">c++</span>
+            <span class="tag">algorithms</span>
+          </div>
+          <img 
+            class="zoomable" 
+            src="thumb3.jpg" 
+            data-full="full3.jpg" 
+            alt="Sudoku screenshot" 
+          />
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <h2>// experience</h2>
+      <div class="timeline">
+        <div class="entry reveal">
+          <h4>Chipotle — Crew Member</h4>
+          <div class="meta">Ops • 2024–2025</div>
+          <p>High-throughput teamwork; service speed; consistency under pressure.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>// contact</h2>
+      <p>
+        Best way to reach me: 
+        <a href="mailto:you@domain.com">you@domain.com</a>
+      </p>
+      <p>
+        Find me on 
+        <a 
+          href="https://github.com/your-github-username" 
+          target="_blank" 
+          rel="noopener"
+        >
+          GitHub
+        </a> 
+        and 
+        <a 
+          href="https://linkedin.com/in/your-handle" 
+          target="_blank" 
+          rel="noopener"
+        >
+          LinkedIn
+        </a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 Oskar Blackbird</small>
+    <div class="social">
+      <a 
+        href="https://github.com/your-github-username" 
+        target="_blank" 
+        rel="noopener"
+      >
+        GitHub
+      </a>
+      <a 
+        href="https://linkedin.com/in/your-handle" 
+        target="_blank" 
+        rel="noopener"
+      >
+        LinkedIn
+      </a>
+      <a href="mailto:you@domain.com">Email</a>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" hidden>
+    <img alt="Expanded project screenshot">
+    <button class="btn small" aria-label="Close">×</button>
+  </div>
+
+  <button 
+    id="to-top" 
+    class="btn small" 
+    aria-label="Back to top" 
+    hidden
+  >
+    ↑
+  </button>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
